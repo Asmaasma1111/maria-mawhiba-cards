@@ -1,0 +1,14 @@
+{
+  "name": "بطاقات ماريا — مقياس موهبة",
+  "short_name": "بطاقات ماريا",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fdf8f4",
+  "theme_color": "#cf5a8c",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

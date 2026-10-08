@@ -1,0 +1,379 @@
+{
+  "version": 1,
+  "heldBackExam": "exam-3",
+  "domains": {
+    "verbal": "الاستدلال اللغوي وفهم المقروء",
+    "quant": "الاستدلال الرياضي والمكاني",
+    "science": "الاستدلال العلمي والميكانيكي",
+    "flex": "المرونة العقلية"
+  },
+  "skills": [
+    {
+      "id": "relations",
+      "domain": "verbal",
+      "name": "العلاقات اللفظية والمصوّرة",
+      "topics": [
+        "العلاقات اللفظية",
+        "العلاقات المصوّرة"
+      ],
+      "source": "authored",
+      "authoredCount": 12,
+      "authoredIds": [
+        "e1q1",
+        "e1q2",
+        "e1q3",
+        "e1q4",
+        "e2q1",
+        "e2q2",
+        "e2q3",
+        "e2q4",
+        "p1q1",
+        "p1q2",
+        "p1q3",
+        "p1q4"
+      ],
+      "pictureIds": [
+        "p1q1",
+        "p1q2",
+        "p1q3",
+        "p1q4"
+      ],
+      "targetSeconds": 75,
+      "workedExample": "e1q1",
+      "trickLine": "ما العلاقة بين الأولى والثانية؟ طبّقيها على الثالثة.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "sentence",
+      "domain": "verbal",
+      "name": "إكمال الجملة",
+      "topics": [
+        "إكمال الجملة"
+      ],
+      "source": "authored",
+      "authoredCount": 8,
+      "authoredIds": [
+        "e1q5",
+        "e1q6",
+        "e1q7",
+        "e1q8",
+        "e2q5",
+        "e2q6",
+        "e2q7",
+        "e2q8"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "e1q5",
+      "trickLine": "اقرئي الجملة كاملة، وجرّبي كل كلمة في الفراغ.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "reading",
+      "domain": "verbal",
+      "name": "فهم المقروء",
+      "topics": [
+        "فهم المقروء"
+      ],
+      "source": "authored",
+      "authoredCount": 16,
+      "authoredIds": [
+        "e1q9",
+        "e1q10",
+        "e1q11",
+        "e1q12",
+        "e1q13",
+        "e1q14",
+        "e1q15",
+        "e1q16",
+        "e2q9",
+        "e2q10",
+        "e2q11",
+        "e2q12",
+        "e2q13",
+        "e2q14",
+        "e2q15",
+        "e2q16"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 110,
+      "workedExample": "e1q9",
+      "trickLine": "الجواب موجود في النص. ابحثي عن الكلمة نفسها فيه.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "numseq",
+      "domain": "quant",
+      "name": "المتتابعات العددية",
+      "topics": [
+        "المتتابعات العددية"
+      ],
+      "source": "both",
+      "authoredCount": 8,
+      "authoredIds": [
+        "e1q17",
+        "e1q18",
+        "e1q19",
+        "e1q20",
+        "e2q17",
+        "e2q18",
+        "e2q19",
+        "e2q20"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "e1q17",
+      "trickLine": "ما الفرق بين كل عددين؟ اتبعي القاعدة نفسها.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "mathprob",
+      "domain": "quant",
+      "name": "مسائل رياضية",
+      "topics": [
+        "مسائل رياضية"
+      ],
+      "source": "authored",
+      "authoredCount": 16,
+      "authoredIds": [
+        "e1q21",
+        "e1q22",
+        "e1q23",
+        "e1q24",
+        "e1q25",
+        "e1q26",
+        "e1q27",
+        "e1q28",
+        "e2q21",
+        "e2q22",
+        "e2q23",
+        "e2q24",
+        "e2q25",
+        "e2q26",
+        "e2q27",
+        "e2q28"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 90,
+      "workedExample": "e1q21",
+      "trickLine": "ما المطلوب بالضبط؟ احسبي خطوة بعد خطوة.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "shapeseq",
+      "domain": "quant",
+      "name": "متتابعات الأشكال",
+      "topics": [
+        "متتابعات الأشكال"
+      ],
+      "source": "both",
+      "authoredCount": 8,
+      "authoredIds": [
+        "e1q29",
+        "e1q30",
+        "e1q31",
+        "e1q32",
+        "e2q29",
+        "e2q30",
+        "e2q31",
+        "e2q32"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "e1q29",
+      "trickLine": "انظري إلى شيء واحد يتغيّر: الدوران أو اللون.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "spatial",
+      "domain": "quant",
+      "name": "الاستدلال المكاني",
+      "topics": [
+        "الاستدلال المكاني"
+      ],
+      "source": "both",
+      "authoredCount": 8,
+      "authoredIds": [
+        "e1q33",
+        "e1q34",
+        "e1q35",
+        "e1q36",
+        "e2q33",
+        "e2q34",
+        "e2q35",
+        "e2q36"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 90,
+      "workedExample": "e1q33",
+      "trickLine": "تخيّلي الشكل يتحرّك في يدك قبل أن تختاري.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "science",
+      "domain": "science",
+      "name": "الاستدلال العلمي",
+      "topics": [
+        "الاستدلال العلمي"
+      ],
+      "source": "authored",
+      "authoredCount": 16,
+      "authoredIds": [
+        "e1q37",
+        "e1q38",
+        "e1q39",
+        "e1q40",
+        "e1q41",
+        "e1q42",
+        "e1q43",
+        "e1q44",
+        "e2q37",
+        "e2q38",
+        "e2q39",
+        "e2q40",
+        "e2q41",
+        "e2q42",
+        "e2q43",
+        "e2q44"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "e1q37",
+      "trickLine": "ما الذي تغيّر؟ وما الذي بقي ثابتاً؟",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "mech",
+      "domain": "science",
+      "name": "الاستدلال الميكانيكي",
+      "topics": [
+        "الاستدلال الميكانيكي"
+      ],
+      "source": "both",
+      "authoredCount": 8,
+      "authoredIds": [
+        "e1q45",
+        "e1q46",
+        "e1q47",
+        "e1q48",
+        "e2q45",
+        "e2q46",
+        "e2q47",
+        "e2q48"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "e1q45",
+      "trickLine": "التروس المتلاصقة تدور عكس بعضها، والصغير أسرع.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "patterns",
+      "domain": "flex",
+      "name": "المرونة العقلية: أنماط",
+      "topics": [
+        "المرونة العقلية: أنماط"
+      ],
+      "source": "both",
+      "authoredCount": 8,
+      "authoredIds": [
+        "e1q49",
+        "e1q50",
+        "e1q51",
+        "e1q52",
+        "e2q49",
+        "e2q50",
+        "e2q51",
+        "e2q52"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "e1q49",
+      "trickLine": "اقرئي صفاً كاملاً، ثم عموداً، ثم اكتشفي القاعدة.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "odd",
+      "domain": "flex",
+      "name": "التصنيف واكتشاف المختلف",
+      "topics": [
+        "التصنيف واكتشاف المختلف"
+      ],
+      "source": "authored",
+      "authoredCount": 16,
+      "authoredIds": [
+        "e1q53",
+        "e1q54",
+        "e1q55",
+        "e1q56",
+        "e1q57",
+        "e1q58",
+        "e1q59",
+        "e1q60",
+        "e2q53",
+        "e2q54",
+        "e2q55",
+        "e2q56",
+        "e2q57",
+        "e2q58",
+        "e2q59",
+        "e2q60"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "e1q53",
+      "trickLine": "ما الذي يجمع ثلاثة منها؟ الرابع لا يشاركهم.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "oddpic",
+      "domain": "flex",
+      "name": "التصنيف المصوّر",
+      "topics": [
+        "التصنيف المصوّر"
+      ],
+      "source": "authored",
+      "authoredCount": 8,
+      "authoredIds": [
+        "p1q5",
+        "p1q6",
+        "p1q7",
+        "p1q8",
+        "p1q9",
+        "p1q10",
+        "p1q11",
+        "p1q12"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "p1q5",
+      "trickLine": "ابحثي عن صفة يشترك فيها ثلاثة وتغيب عن واحد.",
+      "trickLineStatus": "approved-2026-10-08"
+    },
+    {
+      "id": "problems",
+      "domain": "flex",
+      "name": "حلّ المشكلات",
+      "topics": [
+        "حلّ المشكلات"
+      ],
+      "source": "authored",
+      "authoredCount": 8,
+      "authoredIds": [
+        "e1q61",
+        "e1q62",
+        "e1q63",
+        "e1q64",
+        "e2q61",
+        "e2q62",
+        "e2q63",
+        "e2q64"
+      ],
+      "pictureIds": [],
+      "targetSeconds": 75,
+      "workedExample": "e1q61",
+      "trickLine": "اسألي نفسك: أيّ خيار يحقّق الهدف فعلاً؟",
+      "trickLineStatus": "approved-2026-10-08"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex"><title>اختبار</title><link rel="stylesheet" href="app.css">
+<style>#exface.late #extime{color:var(--yellow-deep)}#exface.late #exbar{background:var(--yellow-deep)}</style>
+</head><body><div id="exroot"></div>
+<script src="generator.js"></script><script src="content/icons.js"></script>
+<script src="content/shapes.js"></script><script src="content/diagrams.js"></script>
+<script src="store.js"></script><script src="bank.js"></script>
+<script src="scheduler.js"></script><script src="exam.js"></script>
+<script>
+MW.Bank.load().then(function(){
+  var k = new URLSearchParams(location.search).get('kind') || 'short';
+  MW.Exam.start(k);
+});
+</script></body></html>
