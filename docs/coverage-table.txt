@@ -1,0 +1,33 @@
+COVERAGE SIMULATION
+  2026-10-08 to 2026-12-08 — 61 days, 325 cards, 1 rest day
+  first three sessions: 3, 3, 3 cards
+
+skill        introduced   late?  practised  last 14d  final 7d  flag
+----------------------------------------------------------------------------
+relations    2026-10-08   no           17         7         6  
+sentence     2026-10-08   no           35         7         6  
+reading      2026-10-09   no           35         7         6  
+numseq       2026-10-09   no           19         5         4  
+mathprob     2026-10-10   no           32         7         3  
+shapeseq     2026-10-10   no           19         2         1  
+spatial      2026-10-11   no           16         8         7  
+science      2026-10-11   no           23        13         8  
+mech         2026-10-12   no           23         9         6  
+patterns     2026-10-12   no           26         5         2  
+odd          2026-10-13   no           22         8         7  
+oddpic       2026-10-13   no           34         2         1  
+problems     2026-10-14   no           24         2         1  
+----------------------------------------------------------------------------
+  flagged skills: 0
+
+  relations skill — picture items shown: 9, word items shown: 8
+
+AUTHORED-ONLY SKILLS — week an item first repeats
+  relations   week 5
+  sentence    week 2
+  reading     week 5
+  mathprob    week 4
+  science     week 8
+  odd         week 8
+  oddpic      week 3
+  problems    week 3

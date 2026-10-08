@@ -84,28 +84,27 @@
     }
 
     var quota = newQuota(state, today, fresh.length, due.length, maxCards);
-    var picked = [];
     var newOnes = fresh.slice(0, quota);
 
-    /* المهارة الجديدة تأخذ مكانها حتى لو امتلأت الجلسة بالمستحقّات */
-    var pool = due.map(function (sk) { return { sk: sk, kind: 'practice' }; });
-    newOnes.forEach(function (sk, i) {
-      var at = Math.min(i * 3, pool.length);
-      pool.splice(at, 0, { sk: sk, kind: 'learn' });
-    });
+    /* المهارة الجديدة تأخذ مكانها دائماً: نحجز لها مقعدها قبل ملء الباقي
+       بالمستحقّات، حتى لا يحذفها سقف البطاقات في يوم مزدحم. */
+    var seats = Math.min(maxCards, newOnes.length);
+    var chosen = newOnes.slice(0, seats).map(function (sk) { return { sk: sk, kind: 'learn' }; });
+    var room = maxCards - chosen.length;
+    for (var di = 0; di < due.length && room > 0; di++, room--) {
+      chosen.push({ sk: due[di], kind: 'practice' });
+    }
 
-    /* لا قسمان متتاليان من المجال نفسه ما أمكن */
+    /* لا بطاقتان متتاليتان من المجال نفسه ما أمكن */
     var out = [], lastDomain = null, guard = 0;
-    while (pool.length && out.length < maxCards && guard++ < 500) {
+    while (chosen.length && guard++ < 500) {
       var idx = 0;
       if (lastDomain !== null) {
-        var alt = -1;
-        for (var i2 = 0; i2 < pool.length; i2++) {
-          if (pool[i2].sk.domain !== lastDomain) { alt = i2; break; }
+        for (var i2 = 0; i2 < chosen.length; i2++) {
+          if (chosen[i2].sk.domain !== lastDomain) { idx = i2; break; }
         }
-        if (alt !== -1) idx = alt;
       }
-      var it = pool.splice(idx, 1)[0];
+      var it = chosen.splice(idx, 1)[0];
       out.push(it);
       lastDomain = it.sk.domain;
     }

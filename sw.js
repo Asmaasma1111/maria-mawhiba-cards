@@ -1,5 +1,5 @@
 /* sw.js — يعمل بلا إنترنت بعد أول فتح. ارفعي الرقم مع كل نشر. */
-var CACHE = 'maria-cards-v2';
+var CACHE = 'maria-cards-v3';
 var ASSETS = ['./','index.html','parent.html','exam.html','app.css','manifest.json','icon.svg',
   'generator.js','store.js','bank.js','scheduler.js','session.js','parent.js','exam.js','skills.json',
   'content/exams.json','content/shapes.js','content/icons.js','content/diagrams.js',

@@ -104,7 +104,10 @@
   function renderPips() {
     var n = sess.total, d = sess.done;
     var out = '';
-    for (var i = 0; i < n; i++) out += '<span class="pip' + (i < d ? ' done' : (i === d ? ' now' : '')) + '"></span>';
+    /* أسماء مقيّدة بالنقطة نفسها حتى لا تصطدم بأصناف التخطيط العامة */
+    for (var i = 0; i < n; i++) {
+      out += '<span class="pip' + (i < d ? ' pip--done' : (i === d ? ' pip--now' : '')) + '"></span>';
+    }
     $('#pips').innerHTML = out;
   }
 
