@@ -1,0 +1,403 @@
+{
+  "status": "approved-2026-10-09",
+  "license": "Icons: OpenMoji (openmoji.org), CC BY-SA 4.0",
+  "note": "Approved by Asma 9 Oct 2026. Revision bank only.",
+  "questions": [
+    {
+      "id": "x1",
+      "type": "figural",
+      "topic": "العلاقات المصوّرة",
+      "prompt": "اختاري الصورة التي تكمل العلاقة.",
+      "stimulus": {
+        "kind": "row",
+        "items": [
+          {
+            "icon": "om:1F404"
+          },
+          {
+            "icon": "om:1F95B"
+          },
+          {
+            "text": "::"
+          },
+          {
+            "icon": "om:1F414"
+          },
+          {
+            "blank": true
+          }
+        ]
+      },
+      "optionShapes": [
+        {
+          "icon": "om:1F955"
+        },
+        {
+          "icon": "om:1F95A"
+        },
+        {
+          "icon": "om:1F35E"
+        },
+        {
+          "icon": "om:1F41F"
+        }
+      ],
+      "answer": 1,
+      "explain": "البقرة تعطينا الحليب، والدجاجة تعطينا البيض.",
+      "bank": "revision"
+    },
+    {
+      "id": "x2",
+      "type": "figural",
+      "topic": "العلاقات المصوّرة",
+      "prompt": "اختاري الصورة التي تكمل العلاقة.",
+      "stimulus": {
+        "kind": "row",
+        "items": [
+          {
+            "icon": "om:1F41D"
+          },
+          {
+            "icon": "om:1F36F"
+          },
+          {
+            "text": "::"
+          },
+          {
+            "icon": "om:1F411"
+          },
+          {
+            "blank": true
+          }
+        ]
+      },
+      "optionShapes": [
+        {
+          "icon": "om:1F9F6"
+        },
+        {
+          "icon": "om:1F95B"
+        },
+        {
+          "icon": "om:1F95A"
+        },
+        {
+          "icon": "om:1F347"
+        }
+      ],
+      "answer": 0,
+      "explain": "النحلة تعطينا العسل، والخروف يعطينا الصوف.",
+      "bank": "revision"
+    },
+    {
+      "id": "x3",
+      "type": "figural",
+      "topic": "العلاقات المصوّرة",
+      "prompt": "اختاري الصورة التي تكمل العلاقة.",
+      "stimulus": {
+        "kind": "row",
+        "items": [
+          {
+            "icon": "om:1F41B"
+          },
+          {
+            "icon": "om:1F98B"
+          },
+          {
+            "text": "::"
+          },
+          {
+            "icon": "om:1F331"
+          },
+          {
+            "blank": true
+          }
+        ]
+      },
+      "optionShapes": [
+        {
+          "icon": "om:1F343"
+        },
+        {
+          "icon": "om:1F34E"
+        },
+        {
+          "icon": "om:1F333"
+        },
+        {
+          "icon": "om:1FAA8"
+        }
+      ],
+      "answer": 2,
+      "explain": "اليرقة تصير فراشة، والنبتة الصغيرة تصير شجرة.",
+      "bank": "revision"
+    },
+    {
+      "id": "x4",
+      "type": "figural",
+      "topic": "العلاقات المصوّرة",
+      "prompt": "اختاري الصورة التي تكمل العلاقة.",
+      "stimulus": {
+        "kind": "row",
+        "items": [
+          {
+            "icon": "om:1F327"
+          },
+          {
+            "icon": "om:2602"
+          },
+          {
+            "text": "::"
+          },
+          {
+            "icon": "om:2600"
+          },
+          {
+            "blank": true
+          }
+        ]
+      },
+      "optionShapes": [
+        {
+          "icon": "om:1F576"
+        },
+        {
+          "icon": "om:1F9E3"
+        },
+        {
+          "icon": "om:2744"
+        },
+        {
+          "icon": "om:1F455"
+        }
+      ],
+      "answer": 0,
+      "explain": "المظلّة تحمي من المطر، والنظّارة تحمي من الشمس.",
+      "bank": "revision"
+    },
+    {
+      "id": "x5",
+      "type": "figural",
+      "topic": "العلاقات المصوّرة",
+      "prompt": "اختاري الصورة التي تكمل العلاقة.",
+      "stimulus": {
+        "kind": "row",
+        "items": [
+          {
+            "icon": "om:26F5"
+          },
+          {
+            "icon": "om:1F30A"
+          },
+          {
+            "text": "::"
+          },
+          {
+            "icon": "om:2708"
+          },
+          {
+            "blank": true
+          }
+        ]
+      },
+      "optionShapes": [
+        {
+          "icon": "om:1F697"
+        },
+        {
+          "icon": "om:2601"
+        },
+        {
+          "icon": "om:26F0"
+        },
+        {
+          "icon": "om:1F30A"
+        }
+      ],
+      "answer": 1,
+      "explain": "القارب يسير في الماء، والطائرة تطير في السماء.",
+      "bank": "revision"
+    },
+    {
+      "id": "x6",
+      "type": "figural",
+      "topic": "العلاقات المصوّرة",
+      "prompt": "اختاري الصورة التي تكمل العلاقة.",
+      "stimulus": {
+        "kind": "row",
+        "items": [
+          {
+            "icon": "om:270F"
+          },
+          {
+            "icon": "om:1F4C4"
+          },
+          {
+            "text": "::"
+          },
+          {
+            "icon": "om:1F58C"
+          },
+          {
+            "blank": true
+          }
+        ]
+      },
+      "optionShapes": [
+        {
+          "icon": "om:1F3A8"
+        },
+        {
+          "icon": "om:2702"
+        },
+        {
+          "icon": "om:1F5BC"
+        },
+        {
+          "icon": "om:1F58D"
+        }
+      ],
+      "answer": 2,
+      "explain": "نكتب بالقلم على الورق، ونرسم بالفرشاة لوحة.",
+      "bank": "revision"
+    },
+    {
+      "id": "x7",
+      "type": "figural",
+      "topic": "التصنيف المصوّر",
+      "prompt": "أيّ صورة لا تنتمي إلى المجموعة؟",
+      "optionShapes": [
+        {
+          "icon": "om:1F34E"
+        },
+        {
+          "icon": "om:1F34C"
+        },
+        {
+          "icon": "om:1F955"
+        },
+        {
+          "icon": "om:1F347"
+        }
+      ],
+      "answer": 2,
+      "explain": "الباقي فواكه، والجزر خضار.",
+      "bank": "revision"
+    },
+    {
+      "id": "x8",
+      "type": "figural",
+      "topic": "التصنيف المصوّر",
+      "prompt": "أيّ صورة لا تنتمي إلى المجموعة؟",
+      "optionShapes": [
+        {
+          "icon": "om:1F697"
+        },
+        {
+          "icon": "om:1F68C"
+        },
+        {
+          "icon": "om:26F5"
+        },
+        {
+          "icon": "om:1F6B2"
+        }
+      ],
+      "answer": 2,
+      "explain": "الباقي يسير على الطريق، والقارب في الماء.",
+      "bank": "revision"
+    },
+    {
+      "id": "x9",
+      "type": "figural",
+      "topic": "التصنيف المصوّر",
+      "prompt": "أيّ صورة لا تنتمي إلى المجموعة؟",
+      "optionShapes": [
+        {
+          "icon": "om:1F404"
+        },
+        {
+          "icon": "om:1F988"
+        },
+        {
+          "icon": "om:1F40E"
+        },
+        {
+          "icon": "om:1F411"
+        }
+      ],
+      "answer": 1,
+      "explain": "الباقي يعيش على اليابسة، والقرش في البحر.",
+      "bank": "revision"
+    },
+    {
+      "id": "x10",
+      "type": "figural",
+      "topic": "التصنيف المصوّر",
+      "prompt": "أيّ صورة لا تنتمي إلى المجموعة؟",
+      "optionShapes": [
+        {
+          "icon": "om:1F353"
+        },
+        {
+          "icon": "om:1F34E"
+        },
+        {
+          "icon": "om:1F352"
+        },
+        {
+          "icon": "om:1F34C"
+        }
+      ],
+      "answer": 3,
+      "explain": "الباقي لونه أحمر، والموز أصفر.",
+      "bank": "revision"
+    },
+    {
+      "id": "x11",
+      "type": "figural",
+      "topic": "التصنيف المصوّر",
+      "prompt": "أيّ صورة لا تنتمي إلى المجموعة؟",
+      "optionShapes": [
+        {
+          "icon": "om:1F455"
+        },
+        {
+          "icon": "om:1F456"
+        },
+        {
+          "icon": "om:1FA91"
+        },
+        {
+          "icon": "om:1F3A9"
+        }
+      ],
+      "answer": 2,
+      "explain": "الباقي يُلبس، والكرسيّ نجلس عليه.",
+      "bank": "revision"
+    },
+    {
+      "id": "x12",
+      "type": "figural",
+      "topic": "التصنيف المصوّر",
+      "prompt": "أيّ صورة لا تنتمي إلى المجموعة؟",
+      "optionShapes": [
+        {
+          "icon": "om:270F"
+        },
+        {
+          "icon": "om:1F374"
+        },
+        {
+          "icon": "om:1F58D"
+        },
+        {
+          "icon": "om:1F58A"
+        }
+      ],
+      "answer": 1,
+      "explain": "الباقي للكتابة والرسم، والشوكة للأكل.",
+      "bank": "revision"
+    }
+  ]
+}

@@ -27,6 +27,13 @@ Bank.load().then(() => {
     deck++;
     if (!banks.tags[q.id]) untagged.push(q.id);
   }
+  // approved extra questions: tagged, and only ever revision
+  const extra = JSON.parse(fs.readFileSync(__dirname + '/../extra-questions.json', 'utf8'));
+  for (const q of extra.questions) {
+    deck++;
+    if (!banks.tags[q.id]) untagged.push(q.id);
+    else if (banks.tags[q.id] !== 'revision') fail.push(`extra ${q.id} is not in the revision bank`);
+  }
   if (untagged.length) fail.push(`${untagged.length} deck question(s) untagged: ${untagged.slice(0,5)}`);
   if (dressTagged.length) fail.push(`${dressTagged.length} dress-rehearsal question(s) wrongly tagged`);
 

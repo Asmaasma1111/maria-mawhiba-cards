@@ -17,7 +17,7 @@
         "العلاقات المصوّرة"
       ],
       "source": "authored",
-      "authoredCount": 12,
+      "authoredCount": 18,
       "authoredIds": [
         "e1q1",
         "e1q2",
@@ -30,13 +30,25 @@
         "p1q1",
         "p1q2",
         "p1q3",
-        "p1q4"
+        "p1q4",
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5",
+        "x6"
       ],
       "pictureIds": [
         "p1q1",
         "p1q2",
         "p1q3",
-        "p1q4"
+        "p1q4",
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5",
+        "x6"
       ],
       "targetSeconds": 75,
       "workedExample": "e1q1",
@@ -333,7 +345,7 @@
         "التصنيف المصوّر"
       ],
       "source": "authored",
-      "authoredCount": 8,
+      "authoredCount": 14,
       "authoredIds": [
         "p1q5",
         "p1q6",
@@ -342,7 +354,13 @@
         "p1q9",
         "p1q10",
         "p1q11",
-        "p1q12"
+        "p1q12",
+        "x7",
+        "x8",
+        "x9",
+        "x10",
+        "x11",
+        "x12"
       ],
       "pictureIds": [],
       "targetSeconds": 75,

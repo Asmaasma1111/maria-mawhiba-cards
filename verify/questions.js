@@ -16,6 +16,16 @@ for (const e of d.exams) for (const b of e.blocks) for (const q of b.questions) 
   if (!(q.answer >= 0 && q.answer < 4)) { ab++; out.push('  bad answer ' + q.id); }
   if (!q.explain) { ab++; out.push('  no explain ' + q.id); }
 }
+const xq = JSON.parse(fs.readFileSync(__dirname + '/../extra-questions.json', 'utf8')).questions;
+for (const q of xq) {
+  an++;
+  const o = q.optionShapes || q.options;
+  if (new Set(o.map(x => JSON.stringify(x))).size !== 4) { ab++; out.push('  dup options ' + q.id); }
+  if (!(q.answer >= 0 && q.answer < 4)) { ab++; out.push('  bad answer ' + q.id); }
+  if (!q.explain) { ab++; out.push('  no explain ' + q.id); }
+  for (const m of JSON.stringify(q).matchAll(/om:([0-9A-F-]+)/g))
+    if (!fs.existsSync(__dirname + '/../assets/openmoji/' + m[1] + '.svg')) { ab++; out.push('  missing icon file ' + m[1] + ' in ' + q.id); }
+}
 let gn = 0, gb = 0;
 for (const s of G.skills) for (let l = 1; l <= 3; l++) for (let seed = 1; seed <= 500; seed++) {
   const q = G.make(s, l, seed);

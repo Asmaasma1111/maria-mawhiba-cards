@@ -9,15 +9,19 @@
     return Promise.all([
       fetch('content/exams.json').then(function (r) { return r.json(); }),
       fetch('skills.json').then(function (r) { return r.json(); }),
-      fetch('banks.json').then(function (r) { return r.json(); })
+      fetch('banks.json').then(function (r) { return r.json(); }),
+      fetch('openmoji-map.json').then(function (r) { return r.json(); }),
+      fetch('extra-questions.json').then(function (r) { return r.json(); })
     ]).then(function (res) {
       data = res[0]; skills = res[1]; tags = res[2].tags || {};
+      if (MW.Blend) MW.Blend.setup(res[3]);
       var held = skills.heldBackExam;
       data.exams.forEach(function (ex) {
         ex.blocks.forEach(function (b) {
           b.questions.forEach(function (q) {
+            var src = MW.Blend ? MW.Blend.apply(q) : q;   /* صور مختلطة، في الذاكرة فقط */
             var item = {};
-            for (var k in q) item[k] = q[k];
+            for (var k in src) item[k] = src[k];
             item.domain = b.domain;
             /* النص يُلصق بسؤاله حتى يظهر معه دائماً */
             if (b.passage) item.passage = b.passage;
@@ -30,6 +34,20 @@
         });
         if (ex.id === held) dress = ex;
       });
+      /* أسئلة مصوّرة جديدة اعتمدتها وليّة الأمر — للمراجعة فقط، ولا تُضاف قبل الاعتماد */
+      var extra = res[4] || {};
+      if (/^approved/.test(extra.status || '')) {
+        var domOf = {};
+        for (var k0 in byId) domOf[byId[k0].topic] = byId[k0].domain;
+        (extra.questions || []).forEach(function (q) {
+          var item = {}; for (var k in q) item[k] = q[k];
+          item.domain = domOf[item.topic];
+          item.examId = 'extra';
+          item.bank = tags[item.id] || null;
+          byId[item.id] = item;
+          (byTopic[item.topic] || (byTopic[item.topic] = [])).push(item);
+        });
+      }
       return true;
     });
   }

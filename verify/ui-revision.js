@@ -1,6 +1,6 @@
 /* Plays a whole revision session as Maria, asserting at every step that nothing
    gives the answer away before she has guessed AND tapped "أظهري الإجابة". */
-const BASE='http://localhost:8161/';
+const BASE=process.env.BASE || 'http://localhost:8161/';
 function cdp(ws){let id=0;const w=new Map();
   ws.addEventListener('message',e=>{const m=JSON.parse(e.data);if(m.id&&w.has(m.id)){w.get(m.id)(m);w.delete(m.id);}});
   return (m,p={})=>new Promise((res,rej)=>{const i=++id;w.set(i,x=>x.error?rej(new Error(m+': '+x.error.message)):res(x.result));ws.send(JSON.stringify({id:i,method:m,params:p}));});}
