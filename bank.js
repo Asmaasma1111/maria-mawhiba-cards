@@ -2,6 +2,8 @@
 (function (g) {
   'use strict';
   var MW = g.MW = g.MW || {};
+  /* ملفات الأسئلة الإضافية — كل ملف لا يُحمَّل إلا إذا اعتُمد */
+  var EXTRA_FILES = ['extra-questions.json', 'extra-questions-2.json'];
   var data = null, skills = null, byTopic = {}, byId = {}, dress = null, tags = {};
 
   function load() {
@@ -11,7 +13,10 @@
       fetch('skills.json').then(function (r) { return r.json(); }),
       fetch('banks.json').then(function (r) { return r.json(); }),
       fetch('openmoji-map.json').then(function (r) { return r.json(); }),
-      fetch('extra-questions.json').then(function (r) { return r.json(); })
+      Promise.all(EXTRA_FILES.map(function (f) {
+        return fetch(f).then(function (r) { return r.ok === false ? null : r.json(); })
+                       .catch(function () { return null; });
+      }))
     ]).then(function (res) {
       data = res[0]; skills = res[1]; tags = res[2].tags || {};
       if (MW.Blend) MW.Blend.setup(res[3]);
@@ -35,19 +40,20 @@
         if (ex.id === held) dress = ex;
       });
       /* أسئلة مصوّرة جديدة اعتمدتها وليّة الأمر — للمراجعة فقط، ولا تُضاف قبل الاعتماد */
-      var extra = res[4] || {};
-      if (/^approved/.test(extra.status || '')) {
-        var domOf = {};
-        for (var k0 in byId) domOf[byId[k0].topic] = byId[k0].domain;
-        (extra.questions || []).forEach(function (q) {
-          var item = {}; for (var k in q) item[k] = q[k];
-          item.domain = domOf[item.topic];
-          item.examId = 'extra';
-          item.bank = tags[item.id] || null;
-          byId[item.id] = item;
-          (byTopic[item.topic] || (byTopic[item.topic] = [])).push(item);
-        });
-      }
+      (res[4] || []).forEach(function (extra) {
+        if (extra && /^approved/.test(extra.status || '')) {
+          var domOf = {};
+          for (var k0 in byId) domOf[byId[k0].topic] = byId[k0].domain;
+          (extra.questions || []).forEach(function (q) {
+            var item = {}; for (var k in q) item[k] = q[k];
+            item.domain = domOf[item.topic];
+            item.examId = 'extra';
+            item.bank = tags[item.id] || null;
+            byId[item.id] = item;
+            (byTopic[item.topic] || (byTopic[item.topic] = [])).push(item);
+          });
+        }
+      });
       return true;
     });
   }

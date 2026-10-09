@@ -28,8 +28,9 @@ Bank.load().then(() => {
     if (!banks.tags[q.id]) untagged.push(q.id);
   }
   // approved extra questions: tagged, and only ever revision
-  const extra = JSON.parse(fs.readFileSync(__dirname + '/../extra-questions.json', 'utf8'));
-  for (const q of extra.questions) {
+  const extraQs = ['extra-questions.json', 'extra-questions-2.json']
+    .flatMap(f => JSON.parse(fs.readFileSync(__dirname + '/../' + f, 'utf8')).questions);
+  for (const q of extraQs) {
     deck++;
     if (!banks.tags[q.id]) untagged.push(q.id);
     else if (banks.tags[q.id] !== 'revision') fail.push(`extra ${q.id} is not in the revision bank`);

@@ -16,7 +16,8 @@ for (const e of d.exams) for (const b of e.blocks) for (const q of b.questions) 
   if (!(q.answer >= 0 && q.answer < 4)) { ab++; out.push('  bad answer ' + q.id); }
   if (!q.explain) { ab++; out.push('  no explain ' + q.id); }
 }
-const xq = JSON.parse(fs.readFileSync(__dirname + '/../extra-questions.json', 'utf8')).questions;
+const xq = ['extra-questions.json', 'extra-questions-2.json']
+  .flatMap(f => JSON.parse(fs.readFileSync(__dirname + '/../' + f, 'utf8')).questions);
 for (const q of xq) {
   an++;
   const o = q.optionShapes || q.options;
