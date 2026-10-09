@@ -44,12 +44,12 @@
         var sk = skillOfTopic(b.topic);
         if (!sk || used[sk.id]) return;
         used[sk.id] = 1;
-        var got = Bank.nextQuestion(sk.id, state, { avoidDays: 0 });
+        var got = Bank.nextQuestion(sk.id, state, { avoidDays: 0, bank: 'test' });
         if (got) { got.q.domain = sk.domain; got.q._skill = sk.id; picks.push(got.q); }
       });
       while (picks.length < 4) {
         var sk2 = Bank.skillList()[Math.floor(Math.random() * Bank.skillList().length)];
-        var g2 = Bank.nextQuestion(sk2.id, state, { avoidDays: 0 });
+        var g2 = Bank.nextQuestion(sk2.id, state, { avoidDays: 0, bank: 'test' });
         if (g2) { g2.q.domain = sk2.domain; g2.q._skill = sk2.id; picks.push(g2.q); }
       }
       return [{ title: 'اختبار قصير', seconds: 300, domain: 'mixed', questions: picks.slice(0, 4) }];
@@ -58,14 +58,14 @@
     return plan.map(function (b) {
       var sk = skillOfTopic(b.topic);
       var qs = [];
-      var pool = sk ? Bank.authoredFor(sk.id, state, 0).items.slice() : [];
+      var pool = sk ? Bank.authoredFor(sk.id, state, 0, 'test').items.slice() : [];
       for (var i = 0; i < b.count; i++) {
         var q = null;
         if (sk && MW.Gen.skills.indexOf(sk.id) !== -1 && Math.random() < 0.5) {
           q = MW.Gen.make(sk.id, (state.skills[sk.id] || {}).level || 1, Math.floor(Math.random() * 1e9));
         }
         if (!q && pool.length) q = pool.shift();
-        if (!q && sk) { var gq = Bank.nextQuestion(sk.id, state, { avoidDays: 0 }); q = gq && gq.q; }
+        if (!q && sk) { var gq = Bank.nextQuestion(sk.id, state, { avoidDays: 0, bank: 'test' }); q = gq && gq.q; }
         if (!q) continue;
         var c2 = {}; for (var k2 in q) c2[k2] = q[k2];
         c2.domain = b.domain; c2._skill = sk ? sk.id : null;
@@ -177,7 +177,7 @@
   function finishExam() {
     clearInterval(timer); timer = null;
     var state = S.load(), today = S.today();
-    var score = 0, total = 0, byDom = {}, rows = [], wrongSkills = {};
+    var score = 0, total = 0, byDom = {}, byFacet = {}, rows = [], wrongSkills = {}, review = [];
     E.blocks.forEach(function (b, bi) {
       var bs = 0, un = 0;
       b.questions.forEach(function (q) {
@@ -189,10 +189,17 @@
         var d = q.domain || b.domain;
         byDom[d] = byDom[d] || { s: 0, t: 0 };
         byDom[d].t++; if (ok) byDom[d].s++;
-        if (!ok && q._skill) wrongSkills[q._skill] = 1;
-        if (!ok && !q._skill && q.topic) {
-          var sk = skillOfTopic(q.topic); if (sk) wrongSkills[sk.id] = 1;
+        var skid = q._skill || (q.topic ? (skillOfTopic(q.topic) || {}).id : null);
+        if (!ok && skid) wrongSkills[skid] = 1;
+        if (skid) {
+          byFacet[skid] = byFacet[skid] || { s: 0, t: 0 };
+          byFacet[skid].t++; if (ok) byFacet[skid].s++;
         }
+        review.push({ block: b.title, prompt: q.prompt, topic: q.topic || '',
+                      chose: a === undefined ? null : a, correct: q.answer,
+                      ok: ok, shapes: !!q.optionShapes,
+                      options: q.optionShapes ? null : q.options,
+                      explain: q.explain || '' });
       });
       rows.push({ title: b.title, score: bs, count: b.questions.length,
                   used: Math.round(E.used[bi]), seconds: b.seconds, unanswered: un });
@@ -200,7 +207,8 @@
     var added = Sched.afterExam(state, Object.keys(wrongSkills), today);
     if (E.kind === 'dress') { state.dressDone = true; }
     state.exams.push({ date: today, kind: E.kind, score: score, total: total,
-                       byDomain: byDom, blocks: rows });
+                       byDomain: byDom, byFacet: byFacet, blocks: rows, review: review });
+    if (state.exams.length > 40) state.exams = state.exams.slice(-40);
     S.save();
 
     var doms = Bank.domains();
@@ -223,12 +231,38 @@
         return '<tr><td>' + esc(r.title) + '</td><td>' + S.arD(r.score) + '/' + S.arD(r.count) + '</td>' +
           '<td>' + mmss(r.used) + '</td><td><b>' + S.arD(r.unanswered) + '</b></td></tr>';
       }).join('') + '</tbody></table></div></div>' +
+      '<div class="panel"><h2>المهارات</h2><div class="scroll-x"><table><thead><tr>' +
+      '<th>المهارة</th><th>الدرجة</th></tr></thead><tbody>' +
+      Object.keys(byFacet).map(function (k) {
+        var sk = Bank.skillById(k), f = byFacet[k];
+        return '<tr><td>' + esc(sk ? sk.name : k) + '</td><td>' +
+               S.arD(f.s) + ' / ' + S.arD(f.t) + '</td></tr>';
+      }).join('') + '</tbody></table></div></div>' +
       '<div class="panel"><p style="margin:0">أُضيفت <b>' + S.arD(added) + '</b> مهارة إلى بطاقاتها لمراجعتها غداً.</p></div>' +
-      '<div class="rowbtns"><a class="btn go" href="parent.html" style="text-decoration:none;text-align:center;line-height:44px">رجوع</a></div></div>';
+      '<div class="panel"><h2>مراجعة الأسئلة</h2>' + reviewHTML(review) + '</div>' +
+      '<div class="rowbtns"><a class="btn go" href="index.html" style="text-decoration:none;text-align:center;line-height:44px">الصفحة الرئيسية</a>' +
+      '<a class="btn" href="parent.html" style="text-decoration:none;text-align:center;line-height:44px">لوحة وليّ الأمر</a></div></div>';
     E = null;
   }
 
   /* خطّاف فحص مخفي: يُفرغ وقت القسم الحالي للتحقّق من إغلاقه عند الصفر */
+  /* مراجعة كل سؤال: إجابتها والإجابة الصحيحة — بعد الاختبار فقط */
+  function reviewHTML(review) {
+    var L = ['أ','ب','ج','د'];
+    return review.map(function (r, i) {
+      var cls = r.ok ? 'ok' : (r.chose === null ? 'blank' : 'bad');
+      var hers = r.chose === null ? '<i>لم تُجب</i>'
+               : (r.options ? esc(r.options[r.chose]) : 'الخيار ' + L[r.chose]);
+      var right = r.options ? esc(r.options[r.correct]) : 'الخيار ' + L[r.correct];
+      return '<article class="rev ' + cls + '">' +
+        '<p class="rev-q"><span class="rev-n">' + S.arD(i + 1) + '</span>' + esc(r.prompt) + '</p>' +
+        '<p class="rev-line"><span class="tag">إجابتها</span> ' + hers + '</p>' +
+        '<p class="rev-line"><span class="tag good">الصحيحة</span> ' + right + '</p>' +
+        (r.explain ? '<p class="rev-why">' + esc(r.explain) + '</p>' : '') +
+        '</article>';
+    }).join('');
+  }
+
   MW.Exam = { start: start,
               _drain: function () { if (E) E.rem[E.bi] = 1; },
               _state: function () { return E && { bi: E.bi, blocks: E.blocks.length,

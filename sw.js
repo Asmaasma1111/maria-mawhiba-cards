@@ -1,7 +1,7 @@
 /* sw.js — يعمل بلا إنترنت بعد أول فتح. ارفعي الرقم مع كل نشر. */
-var CACHE = 'maria-cards-v3';
+var CACHE = 'maria-cards-v4';
 var ASSETS = ['./','index.html','parent.html','exam.html','app.css','manifest.json','icon.svg',
-  'generator.js','store.js','bank.js','scheduler.js','session.js','parent.js','exam.js','skills.json',
+  'generator.js','store.js','bank.js','scheduler.js','session.js','parent.js','exam.js','skills.json','banks.json',
   'content/exams.json','content/shapes.js','content/icons.js','content/diagrams.js',
   'content/fonts/Tajawal-Regular-arabic.woff2','content/fonts/Tajawal-Regular-latin.woff2',
   'content/fonts/Tajawal-Bold-arabic.woff2','content/fonts/Tajawal-Bold-latin.woff2'];

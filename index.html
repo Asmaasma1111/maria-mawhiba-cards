@@ -18,7 +18,17 @@
 <section class="home" id="v-home" hidden>
   <button class="gear" id="gear" aria-label="إعدادات">⚙</button>
   <p class="hello" id="hello">أهلاً ماريا</p>
-  <button class="big" id="start">تدرّبي اليوم</button>
+
+  <div class="choices" id="choices">
+    <button class="big rev" id="goRevision">
+      <span class="bigt">مراجعة</span>
+      <span class="bigs">بطاقات بلا وقت. خمّني، ثم اكشفي الإجابة.</span>
+    </button>
+    <button class="big tst" id="goTest">
+      <span class="bigt">اختبار</span>
+      <span class="bigs">مثل الاختبار الحقيقي. الإجابات في النهاية فقط.</span>
+    </button>
+  </div>
   <p class="restmsg" id="restmsg" hidden></p>
 
   <div class="starline"><span>⭐</span><span id="starsToday">٠</span><span class="muted" style="font-size:17px">نجمة اليوم</span></div>
@@ -26,6 +36,25 @@
   <p class="muted" id="prizeline" style="font-size:17px;margin:0"></p>
 
   <div class="badges" id="badges"></div>
+</section>
+
+<!-- ======= تأكيد الاختبار ======= -->
+<section class="wrap" id="v-testconfirm" hidden>
+  <h1>الاختبار</h1>
+  <div class="card">
+    <p class="prompt" style="font-size:22px">هذا اختبار كامل مثل الاختبار الحقيقي.</p>
+    <ul class="facts">
+      <li>٦٤ سؤالاً في ١٢ قسماً</li>
+      <li>١٠٣ دقائق</li>
+      <li>لا تظهر أيّ إجابة أثناء الاختبار</li>
+      <li>القسم يُغلق عند انتهاء وقته ولا يُفتح مرة أخرى</li>
+      <li>النتيجة ومراجعة الأسئلة في النهاية</li>
+    </ul>
+    <div class="rowbtns">
+      <button class="btn go" id="examStart">ابدئي الاختبار</button>
+      <button class="btn" id="examBack">رجوع</button>
+    </div>
+  </div>
 </section>
 
 <!-- ======= البطاقة ======= -->

@@ -10,7 +10,7 @@ function runDay(today, opts = {}) {
   for (const item of plan.cards) {
     const sk = item.sk, rec = S.skill(sk.id);
     const wasLearn = item.kind === 'learn' || rec.wrongStreak >= 2;
-    const got = Bank.nextQuestion(sk.id, state, { level: rec.level || 1 });
+    const got = Bank.nextQuestion(sk.id, state, { level: rec.level || 1, bank: 'revision' });
     if (!got) continue;
     const correct = opts.force !== undefined ? opts.force : (Math.random() < (opts.rate ?? 0.7));
     const slow = opts.slow ? true : (Math.random() < 0.15);
@@ -21,7 +21,7 @@ function runDay(today, opts = {}) {
     if (!correct) retries.push(sk);
   }
   for (const sk of retries) {                 /* same-session retry, easier, stays in box 1 */
-    const got = Bank.nextQuestion(sk.id, state, { level: 1 });
+    const got = Bank.nextQuestion(sk.id, state, { level: 1, bank: 'revision' });
     if (!got) continue;
     Sched.markSeen(sk.id, got.q.id, today, got.isPicture);
     Sched.grade(state, sk.id, true, false, today, true);

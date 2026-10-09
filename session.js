@@ -9,7 +9,9 @@
   function esc(s) { return String(s === undefined || s === null ? '' : s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function show(id) {
-    ['v-home','v-card','v-done'].forEach(function (v) { $('#' + v).hidden = (v !== id); });
+    ['v-home','v-testconfirm','v-card','v-done'].forEach(function (v) {
+      $('#' + v).hidden = (v !== id);
+    });
     window.scrollTo(0, 0);
   }
 
@@ -41,17 +43,19 @@
         '<span>' + esc(shortName(doms[k])) + '<br>' + S.arD(got) + '/' + S.arD(inDom.length) + '</span></div>';
     }).join('');
 
-    var btn = $('#start'), rest = $('#restmsg');
+    var btn = $('#goRevision'), choices = $('#choices'), rest = $('#restmsg');
     if (ph.rest) {
-      btn.hidden = true; rest.hidden = false;
+      choices.hidden = true; rest.hidden = false;
       rest.textContent = ph.daysLeft === 0
         ? 'اليوم اختبارك. بالتوفيق يا ماريا.'
         : 'غداً اختبارك. اليوم راحة — لا بطاقات.';
     } else {
-      btn.hidden = false; rest.hidden = true;
+      choices.hidden = false; rest.hidden = true;
       var p = Sched.plan(state, today, state.settings.cardsPerSession || 8);
       btn.disabled = p.cards.length === 0;
-      btn.textContent = p.cards.length === 0 ? 'أنهيتِ اليوم' : 'تدرّبي اليوم';
+      btn.querySelector('.bigs').textContent = p.cards.length === 0
+        ? 'أنهيتِ بطاقات اليوم. عودي غداً.'
+        : 'بطاقات بلا وقت. خمّني، ثم اكشفي الإجابة.';
     }
     show('v-home');
   }
@@ -95,10 +99,9 @@
   function renderCard(item, isRetry) {
     var sk = item.sk;
     var rec = S.skill(sk.id);
-    var learn = item.kind === 'learn' || (rec.wrongStreak >= 2 && !isRetry);
     renderPips();
-    if (learn) return renderLearn(sk, item);
-    renderPractice(sk, isRetry);
+    /* بطاقة واحدة فقط: سؤال، ثم تخمين، ثم كشف. لا مثال محلول قبل التفكير. */
+    renderPractice(sk, isRetry, item.kind === 'learn');
   }
 
   function renderPips() {
@@ -111,35 +114,10 @@
     $('#pips').innerHTML = out;
   }
 
-  /* ---------- بطاقة التعلّم ---------- */
-  function renderLearn(sk, item) {
-    var ex = Bank.question(sk.workedExample);
-    $('#tdot').hidden = true;
-    $('#cardbody').innerHTML =
-      '<div class="card learn">' +
-      '<p class="kicker">مهارة جديدة</p>' +
-      '<h1 style="font-size:25px;margin:0 0 14px">' + esc(sk.name) + '</h1>' +
-      '<p class="trickbig">' + esc(sk.trickLine) + '</p>' +
-      '<div class="example"><p class="lab">مثال</p>' +
-      '<p style="font-size:21px;margin:0 0 8px">' + esc(ex.prompt) + '</p>' +
-      (ex.stimulus ? MW.Shapes.stimulus(ex.stimulus) : '') +
-      '<p style="margin:0">الإجابة: <span class="ans">' + exAnswer(ex) + '</span></p>' +
-      '<p style="margin:6px 0 0;color:var(--ink-2);font-size:17px">' + esc(ex.explain) + '</p>' +
-      '</div>' +
-      '<div class="rowbtns"><button class="btn go" id="learnGo">جرّبي سؤالاً</button></div>' +
-      '</div>';
-    $('#learnGo').onclick = function () { renderPractice(sk, false, true); };
-    show('v-card');
-  }
-  function exAnswer(ex) {
-    if (ex.optionShapes) return MW.Shapes.svg(ex.optionShapes[ex.answer], 'shape') .replace('class="shape', 'style="width:46px;height:46px;display:inline-block;vertical-align:middle" class="shape');
-    return esc(ex.options[ex.answer]);
-  }
-
   /* ---------- بطاقة التدريب ---------- */
-  function renderPractice(sk, isRetry, afterLearn) {
-    var level = afterLearn || isRetry ? 1 : (S.skill(sk.id).level || 1);
-    var got = Bank.nextQuestion(sk.id, state, { level: level });
+  function renderPractice(sk, isRetry, isNew) {
+    var level = isNew || isRetry ? 1 : (S.skill(sk.id).level || 1);
+    var got = Bank.nextQuestion(sk.id, state, { level: level, bank: 'revision' });
     if (!got) { sess.done++; return nextCard(); }
     var q = got.q;
     if (got.exhausted && !got.generated) {
@@ -148,7 +126,8 @@
       S.save();
     }
     var isShapes = !!q.optionShapes;
-    var n = (q.optionShapes || q.options).length;
+    var hasOptions = !!(q.optionShapes || q.options);
+    var n = hasOptions ? (q.optionShapes || q.options).length : 0;
     var opts = '<div class="opts ' + (isShapes ? 'shapes' : 'texts') + '">';
     for (var i = 0; i < n; i++) {
       opts += '<button class="opt" data-i="' + i + '">' +
@@ -161,16 +140,22 @@
     $('#tdot').hidden = false;
     $('#cardbody').innerHTML =
       '<div class="card">' +
+      (isNew ? '<p class="newskill">مهارة جديدة · ' + esc(sk.name) + '</p>' : '') +
       (q.passage ? '<section class="passage"><h3>' + esc(q.passage.title) + '</h3><p>' +
                    esc(q.passage.text) + '</p></section>' : '') +
       '<p class="prompt">' + esc(q.prompt) + '</p>' +
       (q.stimulus ? MW.Shapes.stimulus(q.stimulus) : '') +
       opts +
+      (hasOptions ? '' : '<p class="sayaloud">قولي إجابتك بصوتك، ثم اكشفي.</p>') +
       '<div id="fb"></div>' +
-      '<div class="rowbtns" id="actions"><button class="btn soft" id="skip" hidden>تجاوزي؟</button></div>' +
+      '<div class="rowbtns" id="actions">' +
+      '<button class="btn reveal" id="reveal"' + (hasOptions ? ' disabled' : '') + '>أظهري الإجابة</button>' +
+      '<button class="btn soft" id="skip" hidden>تجاوزي؟</button>' +
+      '</div>' +
       '</div>';
 
-    var started = Date.now(), target = (sk.targetSeconds || 75) * 1000, answered = false;
+    var started = Date.now(), target = (sk.targetSeconds || 75) * 1000;
+    var answered = false, guess = null;
     $('#tfill').style.height = '0%';
     $('#tdot').classList.remove('over');
     tick = setInterval(function () {
@@ -179,37 +164,61 @@
       if (el >= target) { $('#tdot').classList.add('over'); $('#skip').hidden = false; }
     }, 1000);
 
-    function settle(choice) {
+    /* التخمين: نُبرز اختيارها فقط، بلا أيّ إشارة إلى الصواب */
+    function pick(i) {
       if (answered) return;
+      guess = i;
+      Array.prototype.forEach.call(document.querySelectorAll('.opt'), function (b, idx) {
+        b.classList.toggle('picked', idx === i);
+      });
+      $('#reveal').disabled = false;
+    }
+
+    function settle(skipped) {
+      if (answered) return;
+      if (!skipped && hasOptions && guess === null) return;   /* لا كشف قبل التخمين */
       answered = true;
       clearInterval(tick); tick = null;
       var ms = Date.now() - started;
       var slow = ms > target;
-      var ok = choice === q.answer;
+      var choice = skipped ? -1 : (hasOptions ? guess : -2);
+      var ok = hasOptions ? (choice === q.answer) : null;
 
       Array.prototype.forEach.call(document.querySelectorAll('.opt'), function (b, idx) {
         b.disabled = true;
+        b.classList.remove('picked');
         if (idx === q.answer) b.classList.add('right');
         else if (idx === choice) b.classList.add('wrongpick');
         else b.classList.add('dim');
       });
 
       Sched.markSeen(sk.id, q.id, sess.today, got.isPicture);
-      Sched.grade(state, sk.id, ok, slow, sess.today, !!isRetry);
-      if (ok) { sess.stars++; S.addStar(); }
-      if (!ok && !isRetry) sess.retries.push({ sk: sk, kind: 'practice' });
+      var counted = ok === null ? true : ok;          /* بلا خيارات: تُحتسب صحيحة */
+      Sched.grade(state, sk.id, counted && !skipped, slow, sess.today, !!isRetry);
+      if (counted && !skipped) { sess.stars++; S.addStar(); }
+      if ((!counted || skipped) && !isRetry) sess.retries.push({ sk: sk, kind: 'practice' });
 
-      $('#fb').innerHTML = '<div class="feedback ' + (ok ? 'good' : 'soft') + '">' +
-        '<p class="why">' + (ok ? 'أحسنتِ. ' : '') + esc(q.explain) + '</p>' +
+      var head = skipped ? 'تجاوزتِ هذا السؤال.'
+               : ok === null ? 'هذه هي الإجابة.'
+               : (ok ? 'أحسنتِ، إجابتك صحيحة.' : 'إجابتك ليست الصحيحة.');
+      var correctText = hasOptions
+        ? (isShapes ? 'الإجابة الصحيحة هي ' + AR_L[q.answer]
+                    : 'الإجابة الصحيحة: ' + esc(q.options[q.answer]))
+        : '';
+      $('#fb').innerHTML = '<div class="feedback ' + (ok === false || skipped ? 'soft' : 'good') + '">' +
+        '<p class="why">' + head + '</p>' +
+        (correctText ? '<p class="correct">' + correctText + '</p>' : '') +
+        '<p class="trick">' + esc(q.explain) + '</p>' +
         '<p class="trick">' + esc(sk.trickLine) + '</p></div>';
       $('#actions').innerHTML = '<button class="btn go" id="cont">تابعي</button>';
       $('#cont').onclick = function () { sess.done++; nextCard(); };
     }
 
     Array.prototype.forEach.call(document.querySelectorAll('.opt'), function (b) {
-      b.onclick = function () { settle(+b.getAttribute('data-i')); };
+      b.onclick = function () { pick(+b.getAttribute('data-i')); };
     });
-    $('#skip').onclick = function () { settle(-1); };
+    $('#reveal').onclick = function () { settle(false); };
+    $('#skip').onclick = function () { settle(true); };
     show('v-card');
   }
 
@@ -243,7 +252,10 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     wireGear();
-    $('#start').onclick = startSession;
+    $('#goRevision').onclick = startSession;
+    $('#goTest').onclick = function () { show('v-testconfirm'); };
+    $('#examStart').onclick = function () { location.href = 'exam.html?kind=full'; };
+    $('#examBack').onclick = renderHome;
     $('#doneHome').onclick = renderHome;
     Bank.load().then(function () { renderHome(); })
       .catch(function (e) {

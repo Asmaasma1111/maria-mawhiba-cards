@@ -2,15 +2,16 @@
 (function (g) {
   'use strict';
   var MW = g.MW = g.MW || {};
-  var data = null, skills = null, byTopic = {}, byId = {}, dress = null;
+  var data = null, skills = null, byTopic = {}, byId = {}, dress = null, tags = {};
 
   function load() {
     if (data && skills) return Promise.resolve(true);
     return Promise.all([
       fetch('content/exams.json').then(function (r) { return r.json(); }),
-      fetch('skills.json').then(function (r) { return r.json(); })
+      fetch('skills.json').then(function (r) { return r.json(); }),
+      fetch('banks.json').then(function (r) { return r.json(); })
     ]).then(function (res) {
-      data = res[0]; skills = res[1];
+      data = res[0]; skills = res[1]; tags = res[2].tags || {};
       var held = skills.heldBackExam;
       data.exams.forEach(function (ex) {
         ex.blocks.forEach(function (b) {
@@ -21,6 +22,7 @@
             /* النص يُلصق بسؤاله حتى يظهر معه دائماً */
             if (b.passage) item.passage = b.passage;
             item.examId = ex.id;
+            item.bank = tags[item.id] || null;     /* مراجعة أو اختبار، لا الاثنين */
             byId[item.id] = item;
             if (ex.id === held) return;
             (byTopic[item.topic] || (byTopic[item.topic] = [])).push(item);
@@ -49,12 +51,14 @@
   }
 
   /* أسئلة مؤلّفة لمهارة، مرتّبة بالأقدم رؤيةً أولاً، مع تبادل الصورة والكلمة */
-  function authoredFor(skillId, state, avoidDays) {
+  function authoredFor(skillId, state, avoidDays, bank) {
     var sk = skillById(skillId);
     var seen = (state.skills[skillId] && state.skills[skillId].seen) || {};
     var today = MW.Store.today();
     var all = [];
     sk.topics.forEach(function (t) { all = all.concat(byTopic[t] || []); });
+    /* البنكان منفصلان تماماً: سؤال المراجعة لا يظهر في الاختبار أبداً */
+    if (bank) all = all.filter(function (q) { return q.bank === bank; });
     function age(q) {
       var d = seen[q.id];
       return d ? MW.Store.daysBetween(d, today) : 9999;
@@ -79,7 +83,7 @@
       var q = MW.Gen.make(skillId, level, Math.floor(Math.random() * 1e9));
       if (q) { q.domain = sk.domain; return { q: q, generated: true, exhausted: false }; }
     }
-    var pool = authoredFor(skillId, state, opts.avoidDays);
+    var pool = authoredFor(skillId, state, opts.avoidDays, opts.bank);
     if (!pool.items.length) {
       if (canGen) {
         var q2 = MW.Gen.make(skillId, level, Math.floor(Math.random() * 1e9));
@@ -101,7 +105,15 @@
              isPicture: pics.indexOf(chosen.id) !== -1 };
   }
 
+  function bankOf(qid) { return tags[qid] || null; }
+  function bankCounts() {
+    var c = { revision: 0, test: 0 };
+    for (var k in tags) if (c[tags[k]] !== undefined) c[tags[k]]++;
+    return c;
+  }
+
   MW.Bank = { load: load, skillList: skillList, skillById: skillById, domains: domains,
+              bankOf: bankOf, bankCounts: bankCounts,
               question: question, dressExam: dressExam, blockPlan: blockPlan,
               authoredFor: authoredFor, nextQuestion: nextQuestion,
               topicPool: function (t) { return byTopic[t] || []; } };
